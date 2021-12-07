@@ -13,6 +13,7 @@ import 'package:rider_app/shared/components/components.dart';
 import 'package:rider_app/shared/network/local/cache_helper.dart';
 import 'package:rider_app/shared/styles/color.dart';
 import 'package:rider_app/widget/fade_animation.dart';
+import 'package:rider_app/widget/progress_dialog.dart';
 import 'package:sizer/sizer.dart';
 import 'package:wave/config.dart';
 import 'package:wave/wave.dart';
@@ -41,7 +42,7 @@ class LoginScreen extends StatelessWidget {
       builder: (context, state) {
         var cubit = RiderAppCubit.get(context);
         return ConditionalBuilder(
-          condition: state is! LoginLoadingState,
+          condition: state is ! LoginLoadingState,
           builder: (context) => Scaffold(
             body: SingleChildScrollView(
               child: Form(
@@ -220,13 +221,7 @@ class LoginScreen extends StatelessWidget {
               ),
             ),
           ),
-          fallback: (context) => Container(
-              color: Theme.of(context).scaffoldBackgroundColor,
-              child: Center(
-                  child: SpinKitChasingDots(
-                size: 80,
-                color: defaultColor,
-              ))),
+          fallback: (context) => ProgressDialog('....  جاري تسجيل الدخول برجاء الانتظار'),
         );
       },
     );
