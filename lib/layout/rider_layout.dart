@@ -17,12 +17,7 @@ class RiderLayout extends StatelessWidget {
       builder: (context, state) {
         var cubit = RiderAppCubit.get(context);
         GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
-        Completer<GoogleMapController> _controllerGoogleMap = Completer();
-        GoogleMapController newGoogleMapController;
-        final CameraPosition _kGooglePlex = CameraPosition(
-          target: LatLng(37.42796133580664, -122.085749655962),
-          zoom: 14.4746,
-        );
+
         return Scaffold(
           key: scaffoldKey,
           drawer: Container(
@@ -87,7 +82,7 @@ class RiderLayout extends StatelessWidget {
                   ListTile(
                     leading: Icon(Icons.history),
                     title: Text(
-                      'مرحبا',
+                      'السجل',
                       style: Theme.of(context)
                           .textTheme
                           .subtitle1
@@ -97,7 +92,7 @@ class RiderLayout extends StatelessWidget {
                   ListTile(
                     leading: Icon(Icons.person),
                     title: Text(
-                      'مرحبا',
+                      'معلومات',
                       style: Theme.of(context)
                           .textTheme
                           .subtitle1
@@ -107,7 +102,7 @@ class RiderLayout extends StatelessWidget {
                   ListTile(
                     leading: Icon(Icons.info),
                     title: Text(
-                      'مرحبا',
+                      'معلومات عنا',
                       style: Theme.of(context)
                           .textTheme
                           .subtitle1
@@ -120,14 +115,17 @@ class RiderLayout extends StatelessWidget {
           ),
           body: Stack(
             children: [
-              GoogleMap(
-                mapType: MapType.normal,
-                myLocationButtonEnabled: true,
-                initialCameraPosition: _kGooglePlex,
-                onMapCreated: (GoogleMapController controller) {
-                  _controllerGoogleMap.complete(controller);
-                  newGoogleMapController = controller;
-                },
+              Padding(
+                padding:  EdgeInsets.only(bottom: cubit.bottomPaddingOfMap,top: 20),
+                child: GoogleMap(
+                  mapType: MapType.normal,
+                  initialCameraPosition: cubit.kGooglePlex,
+                  myLocationButtonEnabled: true,
+                  myLocationEnabled: true,
+                  zoomGesturesEnabled: true,
+                  zoomControlsEnabled: true,
+                  onMapCreated: (GoogleMapController controller)=>cubit.createGoogleMap(controller),
+                ),
               ),
               Positioned(
                 top: 45.0,

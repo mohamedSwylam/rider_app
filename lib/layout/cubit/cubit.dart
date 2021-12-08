@@ -8,6 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:rider_app/layout/cubit/states.dart';
@@ -24,6 +25,7 @@ import 'package:sizer/sizer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:uuid/uuid.dart';
+import 'package:geolocator/geolocator.dart';
 
 import '../rider_layout.dart';
 
@@ -902,6 +904,31 @@ class RiderAppCubit extends Cubit<RiderAppStates> {
     print("Completed: " + pin);
     smsCode = pin;
     emit(OnPinCompletedState());
+  }
+  /////////////google Map
+  Completer<GoogleMapController> controllerGoogleMap = Completer();
+  GoogleMapController newGoogleMapController;
+   final CameraPosition kGooglePlex = CameraPosition(
+    target: LatLng(37.42796133580664, -122.085749655962),
+    zoom: 14.4746,
+  );
+  double bottomPaddingOfMap=0.0;
+  void createGoogleMap(GoogleMapController controller) {
+    controllerGoogleMap.complete(controller);
+    newGoogleMapController = controller;
+    locatePosition();
+    bottomPaddingOfMap=45.h;
+    emit(PaddingOfMapState());
+  }
+  /////////////current position
+  Position currentPosition;
+  var geoLocator=Geolocator();
+  void locatePosition() async{
+    Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    currentPosition=position;
+    LatLng latLatPosition =LatLng(position.latitude, position.longitude);
+    CameraPosition cameraPosition = new CameraPosition(target: latLatPosition,zoom: 14);
+    newGoogleMapController.animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
   }
 }
 
