@@ -25,7 +25,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:uuid/uuid.dart';
 
-import '../store_layout.dart';
+import '../rider_layout.dart';
 
 class RiderAppCubit extends Cubit<RiderAppStates> {
   RiderAppCubit() : super(RiderInitialState());

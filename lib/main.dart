@@ -12,7 +12,7 @@ import 'package:sizer/sizer.dart';
 import 'package:device_preview/device_preview.dart';
 import 'layout/cubit/cubit.dart';
 import 'layout/cubit/states.dart';
-import 'layout/store_layout.dart';
+import 'layout/rider_layout.dart';
 import 'modules/landingPage/splash_screen.dart';
 
 
@@ -55,12 +55,12 @@ class MyApp extends StatelessWidget
           return Sizer(
             builder: (context, orientation, deviceType)=> MaterialApp(
               builder: DevicePreview.appBuilder,
-              title: 'Kinda Rider',
+              title: 'taxi Rider App',
               debugShowCheckedModeBanner: false,
               darkTheme: darkTheme,
               theme: lightTheme,
               themeMode: RiderAppCubit.get(context).isDark ? ThemeMode.light : ThemeMode.dark,
-              home: SplashScreen(),
+              home: RiderLayout(),
             ),
           );
         },

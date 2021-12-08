@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:rider_app/layout/cubit/cubit.dart';
 import 'package:rider_app/layout/cubit/states.dart';
-import 'package:rider_app/layout/store_layout.dart';
+import 'package:rider_app/layout/rider_layout.dart';
 import 'package:rider_app/modules/phone_sign_in/phone_verifcation.dart';
 import 'package:rider_app/shared/components/components.dart';
 import 'package:rider_app/shared/network/local/cache_helper.dart';

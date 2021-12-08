@@ -9,7 +9,7 @@ import 'package:otp_text_field/otp_field_style.dart';
 import 'package:otp_text_field/style.dart';
 import 'package:rider_app/layout/cubit/cubit.dart';
 import 'package:rider_app/layout/cubit/states.dart';
-import 'package:rider_app/layout/store_layout.dart';
+import 'package:rider_app/layout/rider_layout.dart';
 import 'package:rider_app/shared/components/components.dart';
 import 'package:rider_app/shared/network/local/cache_helper.dart';
 import 'package:sizer/sizer.dart';
