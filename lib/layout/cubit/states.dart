@@ -327,3 +327,7 @@ class PhoneSignInErrorState extends RiderAppStates {
   PhoneSignInErrorState(this.error);
 }
 class PaddingOfMapState extends RiderAppStates {}
+////////////////searchCoordinateAddress
+class SearchCoordinateAddressLoadingState extends RiderAppStates {}
+class SearchCoordinateAddressSuccessState extends RiderAppStates {}
+class SearchCoordinateAddressErrorState extends RiderAppStates {}

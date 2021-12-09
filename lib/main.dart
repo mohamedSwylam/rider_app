@@ -47,7 +47,7 @@ class MyApp extends StatelessWidget
     return  MultiBlocProvider(
       providers: [
         BlocProvider(
-            create: (BuildContext context) => RiderAppCubit()..changeThemeMode(fromShared: isDark)..changeLanguage(fromShared: isEn)..getLan()),
+            create: (BuildContext context) => RiderAppCubit()..changeThemeMode(fromShared: isDark)),
       ],
       child: BlocConsumer<RiderAppCubit,RiderAppStates>(
         listener: (context, state) {},

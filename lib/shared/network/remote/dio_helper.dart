@@ -7,27 +7,20 @@ class DioHelper {
   static init() {
     dio = Dio(
       BaseOptions(
-        baseUrl: 'https://fcm.googleapis.com/fcm/send',
+        baseUrl: 'https://maps.googleapis.com/',
         receiveDataWhenStatusError: true,
       ),
     );
   }
-
-
-  static Future<Response> postData({
+  static Future<Response> getData({
     @required String url,
     Map<String, dynamic> query,
-    @required Map<String, dynamic> data,
-    String token,
-  }) async {
-    dio.options.headers = {
-      'Content-Type': 'application/json',
-      'Authorization': 'key=AAAAlf5cfKg:APA91bFnumlsHjmG5VO-C3EYoXr-7YNX4WfPasuCrz-ZYTkx2y46U7DNYDIE_TiJGXGfl1660tI4YlhthE15kx5ie5oOzuCSmYWN1CYgT8X2gP7IZBcwZDB1gj-Hsy5AvBBeYHoXgri7',
-    };
-    return dio.post(
+  }) async
+  {
+    return await dio.get(
       url,
       queryParameters: query,
-      data: data,
     );
   }
+
 }

@@ -11,6 +11,7 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:rider_app/assistant/assistant_methods.dart';
 import 'package:rider_app/layout/cubit/states.dart';
 import 'package:rider_app/models/user_model.dart';
 import 'package:rider_app/modules/cart_screen/cart_screen.dart';
@@ -21,6 +22,7 @@ import 'package:rider_app/modules/search/search_screen.dart';
 import 'package:rider_app/modules/user_screen/user_screen.dart';
 import 'package:rider_app/shared/components/components.dart';
 import 'package:rider_app/shared/network/local/cache_helper.dart';
+import 'package:rider_app/shared/network/remote/dio_helper.dart';
 import 'package:sizer/sizer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -80,6 +82,7 @@ class RiderAppCubit extends Cubit<RiderAppStates> {
     currentIndex = index;
     emit(RiderChangeBottomNavState());
   }
+
   ///////////////////////////SignUp
   void userSignUp({
     @required String password,
@@ -157,6 +160,7 @@ class RiderAppCubit extends Cubit<RiderAppStates> {
   File profile;
   String url;
   var picker = ImagePicker();
+
   Future<void> getProfileImage() async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
     if (pickedFile != null) {
@@ -173,7 +177,10 @@ class RiderAppCubit extends Cubit<RiderAppStates> {
     emit(UploadProfileImageLoadingState());
     firebase_storage.FirebaseStorage.instance
         .ref()
-        .child('users/${Uri.file(profile.path).pathSegments.last}')
+        .child('users/${Uri
+        .file(profile.path)
+        .pathSegments
+        .last}')
         .putFile(profile)
         .then((value) {
       value.ref.getDownloadURL().then((value) {
@@ -191,7 +198,7 @@ class RiderAppCubit extends Cubit<RiderAppStates> {
   void pickImageCamera() async {
     final picker = ImagePicker();
     final pickedImage =
-        await picker.getImage(source: ImageSource.camera, imageQuality: 10);
+    await picker.getImage(source: ImageSource.camera, imageQuality: 10);
     final pickedImageFile = File(profile.path);
     profile = pickedImageFile;
     uploadProfileImage();
@@ -200,7 +207,7 @@ class RiderAppCubit extends Cubit<RiderAppStates> {
 
   void remove() {
     url =
-        'https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png';
+    'https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png';
     uploadProfileImage();
     emit(SignUpRemoveProfileImageSuccessState());
   }
@@ -300,7 +307,7 @@ class RiderAppCubit extends Cubit<RiderAppStates> {
     print('user.displayName ${user.displayName}');
     print('user.photoURL ${user.photoURL}');
     final DocumentSnapshot userDoc =
-        await FirebaseFirestore.instance.collection('users').doc(uId).get();
+    await FirebaseFirestore.instance.collection('users').doc(uId).get();
     if (userDoc == null) {
       return;
     } else {
@@ -346,7 +353,8 @@ class RiderAppCubit extends Cubit<RiderAppStates> {
           profileImage = googleAccount.photoUrl;
           createdAt = Timestamp.now().toString();
           getUserData();
-          CacheHelper.saveData(key: 'uId', value: googleAccount.id).then((value) {
+          CacheHelper.saveData(key: 'uId', value: googleAccount.id).then((
+              value) {
             navigateAndFinish(context, RiderLayout());
           });
         } catch (error) {
@@ -443,7 +451,8 @@ class RiderAppCubit extends Cubit<RiderAppStates> {
 
       showDialog(
           context: context,
-          builder: (context) => AlertDialog(
+          builder: (context) =>
+              AlertDialog(
                 title: Text('Log in with facebook failed'),
                 content: Text(content),
                 actions: [
@@ -459,8 +468,10 @@ class RiderAppCubit extends Cubit<RiderAppStates> {
       emit(LoginWithFacebookSuccessStates());
     }
   }
+
   ///////////////////////////////////Signout
-  void signOut(context) => CacheHelper.removeData(key: 'uId').then((value) {
+  void signOut(context) =>
+      CacheHelper.removeData(key: 'uId').then((value) {
         if (value) {
           FirebaseAuth.instance
               .signOut()
@@ -492,7 +503,7 @@ class RiderAppCubit extends Cubit<RiderAppStates> {
     "forgetPass4": "بريد الكتروني غير صالح",
     "forgetPassDialog1": "'تم ارسال رابط اعاده تعيين كلمه المرور بنجاح",
     "forgetPassDialog2":
-        "برجاء التوجه الي صندوق الوارد بالبريد الالكتروني الخاص بكم لاعاده تعيين كلمه المرور الخاصه بكم",
+    "برجاء التوجه الي صندوق الوارد بالبريد الالكتروني الخاص بكم لاعاده تعيين كلمه المرور الخاصه بكم",
     "forgetPassDialog3": "موافق",
     "signUp1": "اختر",
     "signUp2": "الكاميرا",
@@ -552,7 +563,7 @@ class RiderAppCubit extends Cubit<RiderAppStates> {
     "home16": "شوهد موخرا",
     "orderDia1": "تم تاكيد طلبكم بنجاح",
     "orderDia2":
-        "سوف يتم التواصل معكم في اقرب وقت ممكن للاستفسار بشان الطلب او المنتجات يمكنك الاتصال ويمكنكم ايضا مراجعه الطلب من سله الطلبات",
+    "سوف يتم التواصل معكم في اقرب وقت ممكن للاستفسار بشان الطلب او المنتجات يمكنك الاتصال ويمكنكم ايضا مراجعه الطلب من سله الطلبات",
     "orderDia3": "موافق",
     "orderDetails1": "موافق",
     "orderDetails2": "تفاصيل الطلب",
@@ -683,7 +694,7 @@ class RiderAppCubit extends Cubit<RiderAppStates> {
     "cartEmpty3": "Shopping now",
     "wishListEmpty1": "WishList is empty",
     "wishListEmpty2":
-        "Looks like you haven't added anything to your wishList yet",
+    "Looks like you haven't added anything to your wishList yet",
     "orderEmpty1": "Order is empty",
     "orderEmpty2": "Looks like you haven't added anything to your orders yet",
     "feeds": " All Products",
@@ -710,7 +721,7 @@ class RiderAppCubit extends Cubit<RiderAppStates> {
     "home16": "Watched Recently",
     "orderDia1": "Your request has been successfully confirmed",
     "orderDia2":
-        "We will contact you as soon as possible to inquire about the order or products You can call",
+    "We will contact you as soon as possible to inquire about the order or products You can call",
     "orderDia3": "ok",
     "orderDetails2": "Order Details",
     "orderDetails3": "Contact Details",
@@ -813,8 +824,8 @@ class RiderAppCubit extends Cubit<RiderAppStates> {
 
   /////////phone authontication
 
-  Future<void> verifyPhoneNumber(
-      String phoneNumber, BuildContext context, Function setData) async {
+  Future<void> verifyPhoneNumber(String phoneNumber, BuildContext context,
+      Function setData) async {
     PhoneVerificationCompleted verificationCompleted =
         (PhoneAuthCredential phoneAuthCredential) async {
       showSnackBar(context, "Verification Completed");
@@ -863,17 +874,17 @@ class RiderAppCubit extends Cubit<RiderAppStates> {
       AuthCredential credential = PhoneAuthProvider.credential(
           verificationId: verificationId, smsCode: smsCode);
       UserCredential userCredential =
-          await _auth.signInWithCredential(credential).then((value) {
-            createUser(
-              profileImage: profileImage,
-              uId:value.user.uid,
-              phone: phone,
-              name: name,
-              email: '',
-              joinedAt: joinedAt,
-              createdAt: createdAt,
-            );
-            getUserData();
+      await _auth.signInWithCredential(credential).then((value) {
+        createUser(
+          profileImage: profileImage,
+          uId: value.user.uid,
+          phone: phone,
+          name: name,
+          email: '',
+          joinedAt: joinedAt,
+          createdAt: createdAt,
+        );
+        getUserData();
         showSnackBar(context, "logged In");
         emit(PhoneSignInSuccessState(value.user.uid));
       });
@@ -905,30 +916,56 @@ class RiderAppCubit extends Cubit<RiderAppStates> {
     smsCode = pin;
     emit(OnPinCompletedState());
   }
+
   /////////////google Map
   Completer<GoogleMapController> controllerGoogleMap = Completer();
   GoogleMapController newGoogleMapController;
-   final CameraPosition kGooglePlex = CameraPosition(
+  final CameraPosition kGooglePlex = CameraPosition(
     target: LatLng(37.42796133580664, -122.085749655962),
     zoom: 14.4746,
   );
-  double bottomPaddingOfMap=0.0;
+  double bottomPaddingOfMap = 0.0;
+
   void createGoogleMap(GoogleMapController controller) {
     controllerGoogleMap.complete(controller);
     newGoogleMapController = controller;
     locatePosition();
-    bottomPaddingOfMap=45.h;
+    bottomPaddingOfMap = 45.h;
     emit(PaddingOfMapState());
   }
+
   /////////////current position
   Position currentPosition;
-  var geoLocator=Geolocator();
-  void locatePosition() async{
-    Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-    currentPosition=position;
-    LatLng latLatPosition =LatLng(position.latitude, position.longitude);
-    CameraPosition cameraPosition = new CameraPosition(target: latLatPosition,zoom: 14);
-    newGoogleMapController.animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
+  var geoLocator = Geolocator();
+
+   locatePosition() async {
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+    currentPosition = position;
+    LatLng latLatPosition = LatLng(position.latitude, position.longitude);
+    CameraPosition cameraPosition = new CameraPosition(
+        target: latLatPosition, zoom: 14);
+    newGoogleMapController.animateCamera(
+        CameraUpdate.newCameraPosition(cameraPosition));
+    String address = await searchCoordinateAddress(position);
+    print('ths is your address : ' + address);
+    emit(PushNotificationSuccessState());
+  }
+  //////////////searchCoordinateAddress
+  Future<String> searchCoordinateAddress(Position position) async {
+    emit(SearchCoordinateAddressLoadingState());
+    String placeAddress = "";
+    DioHelper.getData(url: 'maps/api/geocode/json', query: {
+      'latlng': '${position.latitude},${position.longitude}',
+      'key': 'AIzaSyDPvjOaeiUePi5hxsOKa-_FhuzpEr_iLn0',
+    }).then((value) {
+      placeAddress = value.data['results'][0]['formatted_address'];
+      print(value.data['results'][0]['formatted_address']);
+      emit(SearchCoordinateAddressSuccessState());
+      return placeAddress;
+    }).catchError((error) {
+      emit(SearchCoordinateAddressErrorState());
+    });
   }
 }
 
