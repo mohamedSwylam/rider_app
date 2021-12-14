@@ -1,3 +1,4 @@
+/*
 import 'package:dio/dio.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:rider_app/assistant/request_assistant.dart';
@@ -13,4 +14,4 @@ class AssistantMethods{
     }
     return placeAddress;
   }
-}
+}*/

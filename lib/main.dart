@@ -19,8 +19,6 @@ import 'modules/landingPage/splash_screen.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  var token =await FirebaseMessaging.instance.getToken();
-  print(token);
   DioHelper.init();
   Bloc.observer = MyBlocObserver();
   await CacheHelper.init();
@@ -31,23 +29,20 @@ void main() async {
   } else {
     widget = SplashScreen();
   }
-
   bool isDark = CacheHelper.getBoolean(key: 'isDark');
-  bool isEn = CacheHelper.getBoolean(key: 'isEn');
-  runApp(MyApp(isDark: isDark,startWidget: widget,isEn: isEn,),);}
+  runApp(MyApp(isDark: isDark,),);}
 class MyApp extends StatelessWidget
 {
   final bool isDark;
-  final bool isEn;
   final Widget startWidget;
-  MyApp({this.startWidget,this.isDark,this.isEn});
+  MyApp({this.startWidget,this.isDark,});
 
   @override
   Widget build(BuildContext context) {
     return  MultiBlocProvider(
       providers: [
         BlocProvider(
-            create: (BuildContext context) => RiderAppCubit()..changeThemeMode(fromShared: isDark)),
+            create: (BuildContext context) => RiderAppCubit()),
       ],
       child: BlocConsumer<RiderAppCubit,RiderAppStates>(
         listener: (context, state) {},
@@ -59,7 +54,7 @@ class MyApp extends StatelessWidget
               debugShowCheckedModeBanner: false,
               darkTheme: darkTheme,
               theme: lightTheme,
-              themeMode: RiderAppCubit.get(context).isDark ? ThemeMode.light : ThemeMode.dark,
+              themeMode: RiderAppCubit.get(context).isDark ? ThemeMode.dark : ThemeMode.light,
               home: RiderLayout(),
             ),
           );

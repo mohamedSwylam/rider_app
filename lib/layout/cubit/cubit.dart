@@ -924,16 +924,6 @@ class RiderAppCubit extends Cubit<RiderAppStates> {
     target: LatLng(37.42796133580664, -122.085749655962),
     zoom: 14.4746,
   );
-  double bottomPaddingOfMap = 0.0;
-
-  void createGoogleMap(GoogleMapController controller) {
-    controllerGoogleMap.complete(controller);
-    newGoogleMapController = controller;
-    locatePosition();
-    bottomPaddingOfMap = 45.h;
-    emit(PaddingOfMapState());
-  }
-
   /////////////current position
   Position currentPosition;
   var geoLocator = Geolocator();
@@ -949,7 +939,6 @@ class RiderAppCubit extends Cubit<RiderAppStates> {
         CameraUpdate.newCameraPosition(cameraPosition));
     String address = await searchCoordinateAddress(position);
     print('ths is your address : ' + address);
-    emit(PushNotificationSuccessState());
   }
   //////////////searchCoordinateAddress
   Future<String> searchCoordinateAddress(Position position) async {
