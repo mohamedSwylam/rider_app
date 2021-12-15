@@ -948,7 +948,7 @@ class RiderAppCubit extends Cubit<RiderAppStates> {
           target: latLatPosition, zoom: 14);
       newGoogleMapController.animateCamera(
           CameraUpdate.newCameraPosition(cameraPosition));
-       address =  searchCoordinateAddress(value);
+       address =  AssistantMethods.searchCoordinateAddress(value);
       print('ths is your address : ' + address);
     });
 
