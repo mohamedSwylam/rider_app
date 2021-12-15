@@ -13,6 +13,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:rider_app/assistant/assistant_methods.dart';
 import 'package:rider_app/layout/cubit/states.dart';
+import 'package:rider_app/models/address_model.dart';
 import 'package:rider_app/models/user_model.dart';
 import 'package:rider_app/modules/cart_screen/cart_screen.dart';
 import 'package:rider_app/modules/feeds_screen/feeds_screen.dart';
@@ -920,30 +921,43 @@ class RiderAppCubit extends Cubit<RiderAppStates> {
   /////////////google Map
   Completer<GoogleMapController> controllerGoogleMap = Completer();
   GoogleMapController newGoogleMapController;
-  final CameraPosition kGooglePlex = CameraPosition(
-    target: LatLng(37.42796133580664, -122.085749655962),
+  CameraPosition kGooglePlex = CameraPosition(
+    target: LatLng(30.296817, 30.978909),
     zoom: 14.4746,
   );
+  double bottomPaddingOfMap = 0.0;
+
+  void createGoogleMap(GoogleMapController controller) {
+    controllerGoogleMap.complete(controller);
+    newGoogleMapController = controller;
+    locatePosition();
+    bottomPaddingOfMap = 45.h;
+    emit(PaddingOfMapState());
+  }
+
   /////////////current position
   Position currentPosition;
   var geoLocator = Geolocator();
 
-   locatePosition() async {
-    Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
-    currentPosition = position;
-    LatLng latLatPosition = LatLng(position.latitude, position.longitude);
-    CameraPosition cameraPosition = new CameraPosition(
-        target: latLatPosition, zoom: 14);
-    newGoogleMapController.animateCamera(
-        CameraUpdate.newCameraPosition(cameraPosition));
-    String address = await searchCoordinateAddress(position);
-    print('ths is your address : ' + address);
+   locatePosition()  {
+     Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high).then((value){
+      currentPosition = value;
+      LatLng latLatPosition = LatLng(value.latitude, value.longitude);
+      CameraPosition cameraPosition = CameraPosition(
+          target: latLatPosition, zoom: 14);
+      newGoogleMapController.animateCamera(
+          CameraUpdate.newCameraPosition(cameraPosition));
+       address =  searchCoordinateAddress(value);
+      print('ths is your address : ' + address);
+    });
+
   }
   //////////////searchCoordinateAddress
-  Future<String> searchCoordinateAddress(Position position) async {
+  searchCoordinateAddress(Position position) {
     emit(SearchCoordinateAddressLoadingState());
     String placeAddress = "";
+
     DioHelper.getData(url: 'maps/api/geocode/json', query: {
       'latlng': '${position.latitude},${position.longitude}',
       'key': 'AIzaSyDPvjOaeiUePi5hxsOKa-_FhuzpEr_iLn0',
@@ -952,9 +966,11 @@ class RiderAppCubit extends Cubit<RiderAppStates> {
       print(value.data['results'][0]['formatted_address']);
       emit(SearchCoordinateAddressSuccessState());
       return placeAddress;
+
     }).catchError((error) {
       emit(SearchCoordinateAddressErrorState());
     });
   }
+
 }
 

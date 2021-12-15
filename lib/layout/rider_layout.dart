@@ -113,60 +113,53 @@ class RiderLayout extends StatelessWidget {
               ),
             ),
           ),
-          body: SingleChildScrollView(
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 20.0),
-                  child: Stack(
-                    children: [
-                      Container(
-                        height: 55.h,
-                        child: GoogleMap(
-                          mapType: MapType.normal,
-                          initialCameraPosition: cubit.kGooglePlex,
-                          myLocationButtonEnabled: true,
-                          myLocationEnabled: true,
-                          zoomGesturesEnabled: true,
-                          zoomControlsEnabled: true,
-                          onMapCreated: (GoogleMapController controller){
-                            cubit.controllerGoogleMap.complete(controller);
-                            cubit.newGoogleMapController = controller;
-                          },
-                        ),
-                      ),
-                      Positioned(
-                        top: 13.0,
-                        left: 13.0,
-                        child: GestureDetector(
-                          onTap: (){
-                            scaffoldKey.currentState.openDrawer();
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(22),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black,
-                                  blurRadius: 6.0,
-                                  spreadRadius: 0.5,
-                                  offset: Offset(0.7, 0.7),
-                                )
-                              ],
-                            ),
-                            child: CircleAvatar(
-                              backgroundColor: Colors.white,
-                              child: Icon(Icons.menu,color: Colors.black,),
-                              radius: 20,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
+          body: Stack(
+            children: [
+              Padding(
+                padding:  EdgeInsets.only(bottom: cubit.bottomPaddingOfMap,top: 20),
+                child: GoogleMap(
+                  mapType: MapType.normal,
+                  initialCameraPosition: cubit.kGooglePlex,
+                  myLocationButtonEnabled: true,
+                  myLocationEnabled: true,
+                  zoomGesturesEnabled: true,
+                  zoomControlsEnabled: true,
+                  onMapCreated: (GoogleMapController controller)=>cubit.createGoogleMap(controller),
+                ),
+              ),
+              Positioned(
+                top: 45.0,
+                left: 22.0,
+                child: GestureDetector(
+                  onTap: (){
+                    scaffoldKey.currentState.openDrawer();
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(22),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black,
+                          blurRadius: 6.0,
+                          spreadRadius: 0.5,
+                          offset: Offset(0.7, 0.7),
+                        )
+                      ],
+                    ),
+                    child: CircleAvatar(
+                      backgroundColor: Colors.white,
+                      child: Icon(Icons.menu,color: Colors.black,),
+                      radius: 20,
+                    ),
                   ),
                 ),
-                Container(
+              ),
+              Positioned(
+                bottom: 0.0,
+                left: 0.0,
+                right: 0.0,
+                child: Container(
                   height: 45.h,
                   decoration: BoxDecoration(
                     color: Colors.white,
@@ -304,8 +297,8 @@ class RiderLayout extends StatelessWidget {
                     ),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         );
       },
