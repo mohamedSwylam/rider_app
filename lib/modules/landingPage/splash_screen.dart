@@ -40,7 +40,7 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   Widget build(BuildContext context) {
     Timer(Duration(seconds: 5), () => navigateAndFinish(context, LoginScreen()));
-    var cubit = RiderAppCubit.get(context);
+    var cubit = AppCubit.get(context);
     return Scaffold(
       body: Container(
         height: double.infinity,
@@ -71,7 +71,7 @@ class _SplashScreenState extends State<SplashScreen>
                   Text(
                     "اوبر اشمون",
                     textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.headline6.copyWith(
+                    style: Theme.of(context).textTheme.headline6?.copyWith(
                         fontWeight: FontWeight.bold,
                         fontSize: 18.sp,
                         color: defaultColor),

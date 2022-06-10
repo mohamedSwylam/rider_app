@@ -1,3 +1,4 @@
+/*
 import 'dart:async';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:rider_app/shared/styles/color.dart';
@@ -305,3 +306,4 @@ class RiderLayout extends StatelessWidget {
     );
   }
 }
+*/
