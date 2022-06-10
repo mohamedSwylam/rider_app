@@ -17,7 +17,7 @@ class ProgressDialog extends StatelessWidget {
   ProgressDialog(this.message);
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<RiderAppCubit, RiderAppStates>(
+    return BlocConsumer<AppCubit,AppStates>(
       listener: (context, state) {},
       builder: (context, state) {
         return Scaffold(

@@ -19,32 +19,21 @@ import 'modules/landingPage/splash_screen.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  DioHelper.init();
   Bloc.observer = MyBlocObserver();
   await CacheHelper.init();
-  uId = CacheHelper.getData(key: 'uId');
-  Widget widget;
-  if (uId != null) {
-    widget = RiderLayout();
-  } else {
-    widget = SplashScreen();
-  }
-  bool isDark = CacheHelper.getBoolean(key: 'isDark');
-  runApp(MyApp(isDark: isDark,),);}
+  runApp(MyApp());}
 class MyApp extends StatelessWidget
 {
-  final bool isDark;
-  final Widget startWidget;
-  MyApp({this.startWidget,this.isDark,});
+  MyApp();
 
   @override
   Widget build(BuildContext context) {
     return  MultiBlocProvider(
       providers: [
         BlocProvider(
-            create: (BuildContext context) => RiderAppCubit()),
+            create: (BuildContext context) => AppCubit()),
       ],
-      child: BlocConsumer<RiderAppCubit,RiderAppStates>(
+      child: BlocConsumer<AppCubit,AppStates>(
         listener: (context, state) {},
         builder: (context, state) {
           return Sizer(
@@ -54,8 +43,7 @@ class MyApp extends StatelessWidget
               debugShowCheckedModeBanner: false,
               darkTheme: darkTheme,
               theme: lightTheme,
-              themeMode: RiderAppCubit.get(context).isDark ? ThemeMode.dark : ThemeMode.light,
-              home: RiderLayout(),
+              home: SplashScreen(),
             ),
           );
         },

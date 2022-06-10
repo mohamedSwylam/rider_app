@@ -1,4 +1,4 @@
-/*
+
 import 'package:conditional_builder/conditional_builder.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,16 +9,18 @@ import 'package:lottie/lottie.dart';
 import 'package:rider_app/layout/cubit/cubit.dart';
 import 'package:rider_app/layout/cubit/states.dart';
 import 'package:rider_app/layout/rider_layout.dart';
+import 'package:rider_app/modules/Login_screen/cubit/cubit.dart';
 import 'package:rider_app/modules/sign_up_screen/sign_up_screen.dart';
 import 'package:rider_app/shared/components/components.dart';
 import 'package:rider_app/shared/network/local/cache_helper.dart';
 import 'package:rider_app/shared/styles/color.dart';
-import 'package:rider_app/widget/fade_animation.dart';
 import 'package:rider_app/widget/progress_dialog.dart';
 import 'package:sizer/sizer.dart';
 import 'package:wave/config.dart';
 import 'package:wave/wave.dart';
 
+import '../../shared/components/custom_text_field.dart';
+import 'cubit/states.dart';
 import 'forget_password.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -28,9 +30,9 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<RiderAppCubit, RiderAppStates>(
+    return BlocConsumer<LoginCubit, LoginStates>(
       listener: (context, state) {
-        if (state is LoginErrorState) {
+    /*    if (state is LoginErrorState) {
           showToast(text: state.error, state: ToastState.ERROR);
         }
         if (state is LoginSuccessState) {
@@ -38,10 +40,10 @@ class LoginScreen extends StatelessWidget {
             navigateAndFinish(context, RiderLayout());
           });
           RiderAppCubit.get(context).selectedHome();
-        }
+        }*/
       },
       builder: (context, state) {
-        var cubit = RiderAppCubit.get(context);
+        var cubit = LoginAppCubit.get(context);
         return ConditionalBuilder(
           condition: state is ! LoginLoadingState,
           builder: (context) => Scaffold(
@@ -64,75 +66,65 @@ class LoginScreen extends StatelessWidget {
                       SizedBox(
                         height: 3.h,
                       ),
-                      FadeAnimation(
-                        1.2,
-                        Text(
-                          '...مرحبا',
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.headline6.copyWith(
-                              fontWeight: FontWeight.bold, fontSize: 18.sp),
-                        ),
+                      Text(
+                        '...مرحبا',
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.headline6!.copyWith(
+                            fontWeight: FontWeight.bold, fontSize: 18.sp),
                       ),
-                      FadeAnimation(
-                        1.5,
-                        Text(
-                          'سجل دخولك للاستمرار',
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.headline6.copyWith(
-                              fontWeight: FontWeight.bold, fontSize: 15.sp),
-                        ),
+                      Text(
+                        'سجل دخولك للاستمرار',
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.headline6!.copyWith(
+                            fontWeight: FontWeight.bold, fontSize: 15.sp),
                       ),
                       SizedBox(
                         height: 5.h,
                       ),
-                      FadeAnimation(
-                          1.5,
-                          Container(
-                            padding: EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: Colors.white),
-                            child: Column(
-                              children: <Widget>[
-                                Container(
-                                  decoration: BoxDecoration(
-                                      border: Border(
-                                          bottom: BorderSide(
-                                              color: Colors.grey[300]))),
-                                  child: defaultFormFiled(
-                                    type: TextInputType.emailAddress,
-                                    onSubmit: () {},
-                                    controller: emailController,
-                                    validate: (String value) {
-                                      if (value.isEmpty ||
-                                          !value.contains('@')) {
-                                        return '${cubit.getTexts('login6')}';
-                                      }
-                                      return null;
-                                    },
-                                    hint: 'البريد الالكتروني',
-                                  ),
-                                ),
-                                Container(
-                                  decoration: BoxDecoration(),
-                                  child: defaultFormFiled(
-                                    type: TextInputType.visiblePassword,
-                                    controller: passwordController,
-                                    onSubmit: () {},
-                                    validate: (String value) {
-                                      if (value.isEmpty || value.length < 7) {
-                                        return '${cubit.getTexts('login7')}';
-                                      }
-                                      return null;
-                                    },
-                                    isPassword: RiderAppCubit.get(context)
-                                        .isPasswordShown,
-                                    hint: 'كلمه المرور',
-                                  ),
-                                ),
-                              ],
+                      Container(
+                        padding: EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.white),
+                        child: Column(
+                          children: <Widget>[
+                            Container(
+                              decoration: BoxDecoration(
+                                  border: Border(
+                                      bottom: BorderSide(
+                                          color: Colors.grey.shade300))),
+                              child: CustomTextFormField(
+                                inputType: TextInputType.emailAddress,
+                                controller: emailController,
+                                validator: (String? value) {
+                                  if (value!.isEmpty ||
+                                      !value.contains('@')) {
+                                    return '${cubit.getTexts('login6')}';
+                                  }
+                                  return null;
+                                },
+                                hintText: 'البريد الالكتروني',
+                              ),
                             ),
-                          )),
+                            Container(
+                              decoration: BoxDecoration(),
+                              child: CustomTextFormField(
+                                inputType: TextInputType.visiblePassword,
+                                controller: passwordController,
+                                validator: (String? value) {
+                                  if (value!.isEmpty || value.length < 7) {
+                                    return '${cubit.getTexts('login7')}';
+                                  }
+                                  return null;
+                                },
+                                isPassword: RiderAppCubit.get(context)
+                                    .isPasswordShown,
+                                hintText: 'كلمه المرور',
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
                       SizedBox(
                         height: 3.h,
                       ),

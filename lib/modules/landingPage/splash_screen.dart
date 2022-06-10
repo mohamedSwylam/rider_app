@@ -1,14 +1,10 @@
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:lottie/lottie.dart';
 import 'package:rider_app/layout/cubit/cubit.dart';
-import 'package:rider_app/modules/Login_screen/login_screen.dart';
-import 'package:rider_app/modules/landingPage/landing_page.dart';
 import 'package:rider_app/shared/components/components.dart';
 import 'package:rider_app/shared/styles/color.dart';
-import 'package:rider_app/widget/fade_animation.dart';
 import 'package:sizer/sizer.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -18,8 +14,8 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen>
     with SingleTickerProviderStateMixin {
-  AnimationController _controller;
-  Animation<double> _animation;
+  AnimationController ?_controller;
+  Animation<double> ?_animation;
 
   @override
   void initState() {
@@ -35,7 +31,7 @@ class _SplashScreenState extends State<SplashScreen>
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    _controller.dispose();
+    _controller!.dispose();
   }
   @override
   Widget build(BuildContext context) {
@@ -46,13 +42,10 @@ class _SplashScreenState extends State<SplashScreen>
         height: double.infinity,
         child: Stack(
           children: [
-            FadeAnimation(
-              1.2,
-              Container(
-                height: double.infinity,
-                decoration: BoxDecoration(
-                  color: Theme.of(context).scaffoldBackgroundColor,
-                ),
+            Container(
+              height: double.infinity,
+              decoration: BoxDecoration(
+                color: Theme.of(context).scaffoldBackgroundColor,
               ),
             ),
             Center(
