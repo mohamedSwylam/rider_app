@@ -1,18 +1,14 @@
-/*
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:conditional_builder/conditional_builder.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:rider_app/layout/cubit/cubit.dart';
 import 'package:rider_app/layout/cubit/states.dart';
 import 'package:rider_app/modules/Login_screen/login_screen.dart';
 import 'package:rider_app/shared/components/components.dart';
 import 'package:rider_app/shared/styles/color.dart';
-import 'package:rider_app/widget/fade_animation.dart';
 import 'package:rider_app/widget/progress_dialog.dart';
 import 'package:sizer/sizer.dart';
 import 'package:wave/config.dart';
