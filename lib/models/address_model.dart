@@ -1,3 +1,4 @@
+/*
 class Address {
   String placeFormattedAddress;
   String placeName;
@@ -30,3 +31,4 @@ class Address {
     };
   }
 }
+*/

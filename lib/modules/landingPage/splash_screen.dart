@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:rider_app/layout/cubit/cubit.dart';
+import 'package:rider_app/modules/Login_screen/login_screen.dart';
 import 'package:rider_app/shared/components/components.dart';
 import 'package:rider_app/shared/styles/color.dart';
 import 'package:sizer/sizer.dart';
@@ -25,7 +26,7 @@ class _SplashScreenState extends State<SplashScreen>
       vsync: this,
       duration: Duration(milliseconds: 1800),
     )..repeat(min: 0,max: 1.0);
-    _animation=CurvedAnimation(parent: _controller, curve: Curves.linear,);
+   // _animation=CurvedAnimation(parent: _controller, curve: Curves.linear,);
   }
   @override
   void dispose() {

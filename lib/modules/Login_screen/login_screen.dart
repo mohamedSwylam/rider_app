@@ -1,5 +1,5 @@
 
-import 'package:conditional_builder/conditional_builder.dart';
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -43,7 +43,7 @@ class LoginScreen extends StatelessWidget {
         }*/
       },
       builder: (context, state) {
-        var cubit = LoginAppCubit.get(context);
+        var cubit = LoginCubit.get(context);
         return ConditionalBuilder(
           condition: state is ! LoginLoadingState,
           builder: (context) => Scaffold(
@@ -99,7 +99,7 @@ class LoginScreen extends StatelessWidget {
                                 validator: (String? value) {
                                   if (value!.isEmpty ||
                                       !value.contains('@')) {
-                                    return '${cubit.getTexts('login6')}';
+                                    return 'البريد المستخدم غير صالح';
                                   }
                                   return null;
                                 },
@@ -113,99 +113,91 @@ class LoginScreen extends StatelessWidget {
                                 controller: passwordController,
                                 validator: (String? value) {
                                   if (value!.isEmpty || value.length < 7) {
-                                    return '${cubit.getTexts('login7')}';
+                                    return 'كله المرور المستخدمه اقل من 7 احرف';
                                   }
                                   return null;
                                 },
-                                isPassword: RiderAppCubit.get(context)
+                                obscureText: LoginCubit.get(context)
                                     .isPasswordShown,
                                 hintText: 'كلمه المرور',
                               ),
                             ),
                           ],
                         ),
-                      )
+                      ),
                       SizedBox(
                         height: 3.h,
                       ),
-                      FadeAnimation(
-                        1.8,
-                        InkWell(
-                          onTap: () {
-                            navigateTo(context, ForgetPasswordScreen());
-                          },
-                          child: Text(
-                            'نسيت كلمه المرور  ؟',
-                            style:
-                                TextStyle(color: Colors.black, fontSize: 11.sp),
-                          ),
+                      InkWell(
+                        onTap: () {
+                          // navigateTo(context, ForgetPasswordScreen());
+                        },
+                        child: Text(
+                          'نسيت كلمه المرور  ؟',
+                          style:
+                          TextStyle(color: Colors.black, fontSize: 11.sp),
                         ),
                       ),
                       SizedBox(
                         height: 3.h,
                       ),
-                      FadeAnimation(
-                          2.1,
-                          ConditionalBuilder(
-                            condition: state is! LoginLoadingState,
-                            builder: (context) {
-                              return InkWell(
-                                onTap: () {
-                                  if (formKey.currentState.validate()) {
-                                    RiderAppCubit.get(context).userLogin(
-                                      password: passwordController.text,
-                                      email: emailController.text,
-                                    );
-                                  }
-                                },
-                                child: Container(
-                                  width: 30.w,
-                                  height: 8.h,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(50),
-                                      color: defaultColor),
-                                  child: Center(
-                                      child: Text(
+                      ConditionalBuilder(
+                        condition: state is! LoginLoadingState,
+                        builder: (context) {
+                          return InkWell(
+                            onTap: () {
+                              if (formKey.currentState!.validate()) {
+                                LoginCubit.get(context).userLogin(
+                                  password: passwordController.text,
+                                  email: emailController.text,
+                                );
+                              }
+                            },
+                            child: Container(
+                              width: 30.w,
+                              height: 8.h,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(50),
+                                  color: defaultColor),
+                              child: Center(
+                                  child: Text(
                                     'دخول',
                                     style: TextStyle(
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold,
                                         fontSize: 13.sp),
                                   )),
-                                ),
-                              );
-                            },
-                            fallback: (context) =>
-                                Center(child: CircularProgressIndicator()),
-                          )),
+                            ),
+                          );
+                        },
+                        fallback: (context) =>
+                            Center(child: CircularProgressIndicator()),
+                      ),
                       SizedBox(
                         height: 3.h,
                       ),
-                      FadeAnimation(
-                        2.3,
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              InkWell(
-                                onTap: () {
-                                  navigateTo(context, SignUpScreen());
-                                },
-                                child: Text(
-                                  'انشاء حساب',
-                                  style:
-                                  TextStyle(color: defaultColor, fontSize: 13.sp,fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                              SizedBox(width: 5.w,),
-                              Text(
-                                'ليس لديك حساب',
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                // navigateTo(context, SignUpScreen());
+                              },
+                              child: Text(
+                                'انشاء حساب',
                                 style:
-                                TextStyle(color: Colors.black, fontSize: 11.sp),
+                                TextStyle(color: defaultColor, fontSize: 13.sp,fontWeight: FontWeight.bold),
                               ),
-                            ],
-                          ),
+                            ),
+                            SizedBox(width: 5.w,),
+                            Text(
+                              'ليس لديك حساب',
+                              style:
+                              TextStyle(color: Colors.black, fontSize: 11.sp),
+                            ),
+                          ],
                         ),
                       ),
                     ],
@@ -220,4 +212,3 @@ class LoginScreen extends StatelessWidget {
     );
   }
 }
-*/
