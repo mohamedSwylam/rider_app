@@ -65,7 +65,8 @@ ThemeData darkTheme = ThemeData(
 ThemeData lightTheme = ThemeData(
   fontFamily: 'Jannah',
   scaffoldBackgroundColor: Colors.grey.shade300,
-  primarySwatch: Colors.amber,
+  primarySwatch: Colors.cyan,
+  cursorColor: Colors.cyan,
   primaryColor: Colors.grey.shade300,
   splashColor:  Colors.black,
   accentColor: defaultColor,
@@ -73,7 +74,7 @@ ThemeData lightTheme = ThemeData(
   indicatorColor:  Color(0xffCBDCF8),
   buttonColor:  Color(0xffF1F5FB),
   hintColor: Colors.grey.shade800,
-  highlightColor:  Color(0xffFCE192),
+  highlightColor:  Colors.cyan,
   hoverColor:  Color(0xff4285F4),
   focusColor: Color(0xffA8DAB5),
   disabledColor: Colors.grey,

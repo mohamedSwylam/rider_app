@@ -3,7 +3,6 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:lottie/lottie.dart';
 import 'package:rider_app/layout/cubit/cubit.dart';
@@ -82,7 +81,7 @@ class LoginScreen extends StatelessWidget {
                         height: 5.h,
                       ),
                       Container(
-                        padding: EdgeInsets.all(10),
+                        padding: EdgeInsets.symmetric(horizontal: 20,vertical: 20),
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                             color: Colors.white),
@@ -106,11 +105,15 @@ class LoginScreen extends StatelessWidget {
                                 hintText: 'البريد الالكتروني',
                               ),
                             ),
+                            SizedBox(
+                              height: 2.h,
+                            ),
                             Container(
                               decoration: BoxDecoration(),
                               child: CustomTextFormField(
                                 inputType: TextInputType.visiblePassword,
                                 controller: passwordController,
+                                maxLine: 1,
                                 validator: (String? value) {
                                   if (value!.isEmpty || value.length < 7) {
                                     return 'كله المرور المستخدمه اقل من 7 احرف';
@@ -121,6 +124,9 @@ class LoginScreen extends StatelessWidget {
                                     .isPasswordShown,
                                 hintText: 'كلمه المرور',
                               ),
+                            ),
+                            SizedBox(
+                              height: 2.h,
                             ),
                           ],
                         ),
